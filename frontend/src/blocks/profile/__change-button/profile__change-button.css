@@ -1,0 +1,23 @@
+.profile__change-button{
+    border: none;
+    padding: 0;
+    margin: 37px 0 0 18px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    background: none;
+    background-image: url(../../../images/Edit_Button.svg);
+    background-size: contain;
+}
+
+.profile__change-button:hover{
+    opacity: 0.6;
+}
+
+@media  screen and (max-width:670px) {
+    .profile__change-button{
+        margin: 34px 0 0 10px;
+        width: 18px;
+        height: 18px;
+    }
+}  

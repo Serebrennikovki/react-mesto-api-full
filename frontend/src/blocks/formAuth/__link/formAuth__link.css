@@ -1,0 +1,16 @@
+.formAuth__link{
+    margin: 15px auto 0;
+    width: 358px;
+    height: 17px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+.formAuth__link:hover{
+    opacity: 0.6;
+}

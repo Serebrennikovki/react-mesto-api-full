@@ -1,0 +1,18 @@
+.profile__changeAvatar-button{
+    padding:0;
+    border: none;
+    box-sizing: border-box;
+    background-color: rgba(0,0,0,0);
+    border-radius: 60px;
+    width: 120px;
+    height: 120px;
+}
+.profile__changeAvatar-button:hover{
+    background-image: url(../../../images/editAvatar_button.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 26px;
+    cursor: pointer;
+
+}
+

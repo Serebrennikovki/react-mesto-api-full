@@ -1,0 +1,19 @@
+.card__button-like{
+    border: none;
+    background:none;
+    padding: 0;
+    width: 22px;
+    height: 19px;
+    margin: 0 20px 0 0;
+    cursor: pointer;
+    background-image: url(../../../images/Vector.svg);
+}
+
+.card__button-like:hover{
+    opacity: 0.6;
+}
+
+.card__button-like:active{
+    background-image: url(../../../images/Unionlike_active.svg);
+    opacity: 1;
+}

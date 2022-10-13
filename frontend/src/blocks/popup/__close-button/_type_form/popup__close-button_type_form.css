@@ -1,0 +1,20 @@
+.popup__close-button_type_form{
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    height: 32px;
+    width: 32px;
+    cursor: pointer;
+    background: none;
+    background-image: url(../../../../images/Close_Icon32px.svg);
+    background-size: contain;
+}
+
+@media screen and (max-width: 500px) {
+    .popup__close-button_type_form{
+        height: 20px;
+        width: 20px;
+        right: 0px;
+        top: -36px;
+    }
+}

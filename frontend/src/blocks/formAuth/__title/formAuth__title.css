@@ -1,0 +1,11 @@
+.formAuth__title{
+    margin: 60px auto 0;
+    color: white;
+    width: 358px;
+    height: 29px;
+    font-family: 'Inter','Arial', sans-serif;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+}

@@ -1,0 +1,19 @@
+.bigImage__button-close{
+    margin: 0 -40px 8px 0;
+    height: 32px;
+    width: 32px;
+    cursor: pointer;
+    background: none;
+    background-image: url(../../../images/Close_Icon32px.svg);
+    background-size: contain;
+    align-self: end;
+    position: relative;
+}
+
+@media screen and (max-width: 500px) {
+    .bigImage__button-close{
+        height: 20px;
+        width: 20px;
+        margin: 0 0 16px 0;
+    }
+}

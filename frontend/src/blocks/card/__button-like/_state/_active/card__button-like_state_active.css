@@ -1,0 +1,4 @@
+.card__button-like_state_active{
+    background-image: url(../../../../../images/Unionlike_active.svg);
+    opacity: 1;
+}

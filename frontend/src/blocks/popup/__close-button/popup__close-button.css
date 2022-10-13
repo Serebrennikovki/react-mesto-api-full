@@ -1,0 +1,11 @@
+.popup__close-button{
+    font-size: 0;
+    border: none;
+    padding: 0;
+   
+}
+
+.popup__close-button:hover{
+    opacity: 0.6;
+}
+
