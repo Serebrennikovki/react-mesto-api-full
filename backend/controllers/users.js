@@ -99,6 +99,7 @@ module.exports.loginUser = function (req, res, next) {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((userData) => {
+      console.log(userData);
       if (!userData) {
         throw new ValidationError('Неправильные почта или пароль');
       }
@@ -106,7 +107,7 @@ module.exports.loginUser = function (req, res, next) {
       return res.status(200).cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-      }).send({ jwt: token });
+      }).send({ jwt: token, user: userData });
     })
     .catch((err) => {
       next(err);

@@ -55,7 +55,7 @@ function App() {
 
   function handleCardLike(card){
     console.log('card =', card);
-    const isLiked = card.likes.some(i=> i._id === currentUser._id);
+    const isLiked = card.likes.some(i=> i === currentUser._id);
     api.changeLikeStatus(card._id, !isLiked)
       .then((newCard)=>{
         console.log('newCard',newCard);
@@ -67,7 +67,7 @@ function App() {
   function handleCardDelete(card){
     api.deleteCard(card._id)
       .then(()=>{
-        setCards(cards.filter((item)=>{
+        setCards(cards.filter((item) => {
           if(!(item._id === card._id)){
             return item;
           }
@@ -155,6 +155,7 @@ function onLogin(e, email, password){
     .then((data)=>{
         console.log('dataLogin', data);
         if(data){
+            console.log('loginData = ',data);
             localStorage.setItem('jwt', data.jwt);
             setUserEmail(email);
             setLoggedIn(true);
