@@ -1,3 +1,4 @@
+require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -5,7 +6,7 @@ const EmailExistError = require('../errors/emailExistError');
 const ValidationError = require('../errors/validationError');
 const NotFoundError = require('../errors/notFoundError');
 
-const SECRET_KEY = 'LMLJVJVVFDSKVJKDSFJV';
+const { NODE_ENV, SECRET_KEY } = process.env;
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -99,11 +100,10 @@ module.exports.loginUser = function (req, res, next) {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((userData) => {
-      console.log(userData);
       if (!userData) {
         throw new ValidationError('Неправильные почта или пароль');
       }
-      const token = jwt.sign({ _id: userData._id }, SECRET_KEY, { expiresIn: '7d' });
+      const token = jwt.sign({ _id: userData._id }, NODE_ENV === 'production' ? SECRET_KEY : 'dev-secret', { expiresIn: '7d' });
       return res.status(200).cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,

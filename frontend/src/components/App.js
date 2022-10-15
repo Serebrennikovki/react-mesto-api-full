@@ -155,7 +155,7 @@ function onLogin(e, email, password){
     .then((data)=>{
         console.log('dataLogin', data);
         if(data){
-            console.log('loginData = ',data);
+            setCurrentUser(data.user);
             localStorage.setItem('jwt', data.jwt);
             setUserEmail(email);
             setLoggedIn(true);
@@ -172,12 +172,10 @@ function onRegistration(e, email, password){
   register(email, password)
   .then((data)=>{
       if(data){
-          console.log(data);
           history.push('/signin');
           handleResAuth(true);
       }
       else{
-          console.log(data);
           handleResAuth(false);
       }
   })

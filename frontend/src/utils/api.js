@@ -93,7 +93,6 @@ class Api {
 
 }
 const token = localStorage.getItem('jwt');
-
 const api = new Api({
     baseUrl: 'http://api.v.mesto.nomoredomains.icu/',
     headers: {
