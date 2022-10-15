@@ -30,6 +30,7 @@ function App() {
   const [isInfoToolPopupOpen, setInfoToolPopupOpen] = React.useState(false);
   const [isSuccessAuth, setIsSuccessAuth] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState('');
+  const [token, setToken] = React.useState('');
   const history = useHistory();
 
   React.useEffect(()=>{
@@ -56,7 +57,7 @@ function App() {
   function handleCardLike(card){
     console.log('card =', card);
     const isLiked = card.likes.some(i=> i === currentUser._id);
-    api.changeLikeStatus(card._id, !isLiked)
+    api.changeLikeStatus(card._id, !isLiked, token)
       .then((newCard)=>{
         console.log('newCard',newCard);
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
@@ -64,7 +65,7 @@ function App() {
       .catch((error)=>{console.log(error);})
     }
 
-  function handleCardDelete(card){
+  function handleCardDelete(card, token){
     api.deleteCard(card._id)
       .then(()=>{
         setCards(cards.filter((item) => {
@@ -77,7 +78,7 @@ function App() {
   }
 
   function handleUpdateUser(data){
-    api.changeUserInfo(data)
+    api.changeUserInfo(data, token)
       .then((res)=>{
         setCurrentUser(res);
         closeAllPopups();
@@ -87,7 +88,7 @@ function App() {
   }
 
   function handleUpdateAvatar(link){
-    api.changeAvatar(link)
+    api.changeAvatar(link, token)
       .then((res)=>{
         setCurrentUser(res);
         closeAllPopups();
@@ -96,10 +97,8 @@ function App() {
   }
 
   function handleAddPlace(data){
-    console.log('dataForNewCard = ', data);
-    api.addCard(data)
+    api.addCard(data, token)
       .then((res)=>{
-        console.log('NEWCARD =', res)
         setCards([res, ...cards]);
         closeAllPopups();
       })
@@ -135,7 +134,8 @@ function handleResAuth(isSuccess){
 }
 function checkToken(){
   if (localStorage.getItem('jwt')){
-    let jwt = localStorage.getItem('jwt');
+  const jwt = localStorage.getItem('jwt');
+  setToken(jwt);
     checkJWT(jwt)
     .then(({data})=>{
       if(data){
@@ -153,7 +153,6 @@ function onLogin(e, email, password){
     e.preventDefault();
     authorize(email, password)
     .then((data)=>{
-        console.log('dataLogin', data);
         if(data){
             setCurrentUser(data.user);
             localStorage.setItem('jwt', data.jwt);
@@ -183,7 +182,6 @@ function onRegistration(e, email, password){
       console.log(err);
       handleResAuth(false);
   })
-  console.log(email,password);
 }
 
 
