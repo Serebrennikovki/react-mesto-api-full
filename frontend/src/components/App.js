@@ -96,9 +96,10 @@ function App() {
   }
 
   function handleAddPlace(data){
+    console.log('dataForNewCard = ', data);
     api.addCard(data)
       .then((res)=>{
-        console.log('card =', res)
+        console.log('NEWCARD =', res)
         setCards([res, ...cards]);
         closeAllPopups();
       })
@@ -137,7 +138,6 @@ function checkToken(){
     let jwt = localStorage.getItem('jwt');
     checkJWT(jwt)
     .then(({data})=>{
-      console.log(data);
       if(data){
         setUserEmail(data.email);
         setLoggedIn(true);
