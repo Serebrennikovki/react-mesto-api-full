@@ -10,11 +10,13 @@ const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/notFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, NODE_ENV, SECRET_KEY } = process.env;
 
 const app = express();
 
 app.use(cors());
+console.log(NODE_ENV);
+console.log(SECRET_KEY);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

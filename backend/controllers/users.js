@@ -5,9 +5,8 @@ const EmailExistError = require('../errors/emailExistError');
 const ValidationError = require('../errors/validationError');
 const NotFoundError = require('../errors/notFoundError');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
+const { NODE_ENV, SECRET_KEY } = process.env;
 const SECRET_KEY_DEV = 'hgdgaecwekdcerhcgeu';
-const secretKey = NODE_ENV === 'production' ? JWT_SECRET : SECRET_KEY_DEV;
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -104,7 +103,7 @@ module.exports.loginUser = function (req, res, next) {
       if (!userData) {
         throw new ValidationError('Неправильные почта или пароль');
       }
-      const token = jwt.sign({ _id: userData._id }, secretKey, { expiresIn: '7d' });
+      const token = jwt.sign({ _id: userData._id }, NODE_ENV === 'production' ? SECRET_KEY : SECRET_KEY_DEV, { expiresIn: '7d' });
       return res.status(200).cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
