@@ -80,7 +80,6 @@ class Api {
     }
 
     changeAvatar(link){
-        console.log(link);
         return fetch(`${this._baseUrl}users/me/avatar`,{
             method: 'PATCH',
             headers: this._headers,

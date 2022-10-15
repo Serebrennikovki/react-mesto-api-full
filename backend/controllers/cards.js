@@ -11,7 +11,6 @@ module.exports.getCards = (req, res, next) => {
 
 module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
-  console.log('req.user = ', req.user);
   Card.create({ name, link, owner: req.user })
     .then((card) => res.send({ card }))
     .catch((error) => {
@@ -68,7 +67,7 @@ module.exports.deleteCard = (req, res, next) => {
       if (!card) {
         throw new NotFoundError(`Карточка с указанным ${req.params.cardId} не найдена.`);
       }
-      if (req.user._id !== card.owner.toString()) {
+      if (req.user._id !== card.owner._id.toString()) {
         throw new NoRightsError(`Карточка с указанным ${req.params.cardId} не может быть удалена. Нет прав.`);
       }
       return Card.findByIdAndRemove(req.params.cardId)
