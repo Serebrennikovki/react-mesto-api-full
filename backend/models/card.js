@@ -11,7 +11,7 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => /https?:\/\/(w{3}.)?[0-9a-zA-z-]{1,}.ru\/?([0-9a-zA-z_\W]{1,})?/.test(v),
+      validator: (v) => /https?:\/\/(w{3}.)?[0-9a-zA-z-]{1,}.[a-zA-z\W]{1,}\/?([0-9a-zA-z_\W]{1,})?/.test(v),
       message: 'это не ссылка',
     },
   },
@@ -21,7 +21,7 @@ const cardSchema = new mongoose.Schema({
     required: true,
   },
   likes: {
-    type: [mongoose.Schema.Types.ObjectId],
+    type: [],
     ref: 'user',
     default: [],
   },

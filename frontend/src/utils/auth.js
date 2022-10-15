@@ -1,4 +1,4 @@
-const BASE__URL = 'https://auth.nomoreparties.co/';
+const BASE__URL = 'http://api.v.mesto.nomoredomains.icu/';
 
 function _checkResponse(res){
         if(res.ok){

@@ -92,11 +92,12 @@ class Api {
     }
 
 }
+const token = localStorage.getItem('jwt');
 
 const api = new Api({
-    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-44/',
+    baseUrl: 'http://api.v.mesto.nomoredomains.icu/',
     headers: {
-      authorization: 'bbed6d25-98f7-4c99-a8e5-9c526d6e53f4',
+     "Authorization" : `Bearer ${token}`,
       'Content-Type': 'application/json'
     }
   });

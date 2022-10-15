@@ -95,6 +95,7 @@ function App() {
   function handleAddPlace(data){
     api.addCard(data)
       .then((res)=>{
+        console.log('card =', res)
         setCards([res, ...cards]);
         closeAllPopups();
       })
@@ -149,8 +150,9 @@ function onLogin(e, email, password){
     e.preventDefault();
     authorize(email, password)
     .then((data)=>{
+        console.log('dataLogin', data);
         if(data){
-            localStorage.setItem('jwt', data.token);
+            localStorage.setItem('jwt', data.jwt);
             setUserEmail(email);
             setLoggedIn(true);
             history.push('/');
