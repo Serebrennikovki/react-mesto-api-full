@@ -9,7 +9,9 @@ function Card(props){
     const isOwn = props.card.owner === dataUser._id;
     //const isOwn = props.card.owner._id === dataUser._id;
     const cardDeleteButtonClassName = `${isOwn ? '' : 'card__button-del_state_disable'} card__button-del`;
-    let isLiked = props.card.likes.some(i=> i._id === dataUser._id);
+    const isLiked = props.card.likes.some(i => i.owner === dataUser._id);
+    console.log('card.likes = ', props.card.likes);
+    console.log('isLiked', isLiked);
     const cardLikeButtonClassName = `card__button-like ${isLiked ? 'card__button-like_state_active':''}`
 
     function handleClick() {
