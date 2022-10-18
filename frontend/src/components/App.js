@@ -51,7 +51,7 @@ function App() {
 
   React.useEffect(()=>{
     checkToken();
-  }, []);*/
+  }, [loggedIn]);*/
 
 
   function handleCardLike(card){
