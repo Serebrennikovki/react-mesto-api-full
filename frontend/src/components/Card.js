@@ -4,8 +4,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Card(props){
     const dataUser = useContext(CurrentUserContext);
-    console.log('props', props);
-    const isOwn = props.card.owner._id === dataUser._id;
+    const isOwn = props.card.owner === dataUser._id;
     const cardDeleteButtonClassName = `${isOwn ? '' : 'card__button-del_state_disable'} card__button-del`;
     const isLiked = props.card.likes.some(i => i === dataUser._id);
     const cardLikeButtonClassName = `${isLiked ? 'card__button-like_state_active':''} card__button-like`

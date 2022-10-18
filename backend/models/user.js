@@ -30,13 +30,13 @@ const userSchema = new mongoose.Schema({
   email:
   {
     type: String,
-    unique: true,
     required: true,
     validate(value) {
       if (!validator.isEmail(value)) {
         throw new ValidationError('Некорректная почта');
       }
     },
+    unique: true,
   },
   password:
   {
