@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 const ValidationError = require('../errors/validationError');
 const UnAuthorizedError = require('../errors/unAuthorizedError');
+const { linkRegExp } = require('../utils/linkRegEx');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -22,7 +23,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     validate: {
-      validator: (v) => /https?:\/\/(w{3}.)?[0-9a-zA-z-]{1,}.[a-zA-z]{1,}\/?([0-9a-zA-z_\W]{1,})?/.test(v),
+      validator: (v) => linkRegExp.test(v),
       message: 'это не ссылка',
     },
   },

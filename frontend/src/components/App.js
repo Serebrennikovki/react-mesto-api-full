@@ -30,14 +30,10 @@ function App() {
   const [isInfoToolPopupOpen, setInfoToolPopupOpen] = React.useState(false);
   const [isSuccessAuth, setIsSuccessAuth] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState('');
-  const [token, setToken] = React.useState('');
+  const [tokenJWT, setTokenJWT] = React.useState('');
   const history = useHistory();
 
-  React.useEffect(()=>{
-    checkToken();
-  }, []);
-
-  React.useEffect(()=>{
+  /* React.useEffect(()=>{
     api.getUserInfo()
       .then((response)=>{
         setCurrentUser(response);
@@ -53,20 +49,22 @@ function App() {
       .catch((error)=>{console.log(error);})
   }, []);
 
+  React.useEffect(()=>{
+    checkToken();
+  }, []);*/
+
 
   function handleCardLike(card){
-    console.log('card =', card);
     const isLiked = card.likes.some(i=> i === currentUser._id);
-    api.changeLikeStatus(card._id, !isLiked, token)
+    api.changeLikeStatus(card._id, !isLiked, tokenJWT)
       .then((newCard)=>{
-        console.log('newCard',newCard);
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
       })
       .catch((error)=>{console.log(error);})
     }
 
-  function handleCardDelete(card, token){
-    api.deleteCard(card._id)
+  function handleCardDelete(card){
+    api.deleteCard(card._id, tokenJWT)
       .then(()=>{
         setCards(cards.filter((item) => {
           if(!(item._id === card._id)){
@@ -78,7 +76,7 @@ function App() {
   }
 
   function handleUpdateUser(data){
-    api.changeUserInfo(data, token)
+    api.changeUserInfo(data, tokenJWT)
       .then((res)=>{
         setCurrentUser(res);
         closeAllPopups();
@@ -88,7 +86,7 @@ function App() {
   }
 
   function handleUpdateAvatar(link){
-    api.changeAvatar(link, token)
+    api.changeAvatar(link, tokenJWT)
       .then((res)=>{
         setCurrentUser(res);
         closeAllPopups();
@@ -97,7 +95,7 @@ function App() {
   }
 
   function handleAddPlace(data){
-    api.addCard(data, token)
+    api.addCard(data, tokenJWT)
       .then((res)=>{
         setCards([res, ...cards]);
         closeAllPopups();
@@ -135,7 +133,6 @@ function handleResAuth(isSuccess){
 function checkToken(){
   if (localStorage.getItem('jwt')){
   const jwt = localStorage.getItem('jwt');
-  setToken(jwt);
     checkJWT(jwt)
     .then(({data})=>{
       if(data){
@@ -155,6 +152,7 @@ function onLogin(e, email, password){
     .then((data)=>{
         if(data){
             setCurrentUser(data.user);
+            setTokenJWT(data.jwt);
             localStorage.setItem('jwt', data.jwt);
             setUserEmail(email);
             setLoggedIn(true);
@@ -163,6 +161,7 @@ function onLogin(e, email, password){
     })
     .catch((err)=>{
         console.log(err);
+        handleResAuth(false);
     })
 }
 

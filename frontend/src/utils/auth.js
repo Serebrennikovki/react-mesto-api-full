@@ -1,4 +1,4 @@
-const BASE__URL = 'http://api.v.mesto.nomoredomains.icu/';
+const BASE__URL = 'https://api.v.mesto.nomoredomains.icu/';
 
 function _checkResponse(res){
         if(res.ok){

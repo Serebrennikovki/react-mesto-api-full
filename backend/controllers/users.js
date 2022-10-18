@@ -7,6 +7,7 @@ const NotFoundError = require('../errors/notFoundError');
 
 const { NODE_ENV, SECRET_KEY } = process.env;
 const SECRET_KEY_DEV = 'hgdgaecwekdcerhcgeu';
+const secretKey = NODE_ENV === 'production' ? SECRET_KEY : SECRET_KEY_DEV;
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -71,7 +72,8 @@ module.exports.createUser = (req, res, next) => {
             next(new EmailExistError('Данный email уже зарегистрирован'));
           } else { next(err); }
         });
-    });
+    })
+    .catch(next);
 };
 
 module.exports.updateUser = (req, res, next) => {
@@ -96,18 +98,19 @@ module.exports.updateUserAvatar = (req, res, next) => {
     });
 };
 
-module.exports.loginUser = function (req, res, next) {
+module.exports.loginUser = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((userData) => {
-      if (!userData) {
-        throw new ValidationError('Неправильные почта или пароль');
-      }
-      const token = jwt.sign({ _id: userData._id }, NODE_ENV === 'production' ? SECRET_KEY : SECRET_KEY_DEV, { expiresIn: '7d' });
-      return res.status(200).cookie('jwt', token, {
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-      }).send({ jwt: token, user: userData });
+      const loginData = {
+        _id: userData._id,
+        name: userData.name,
+        about: userData.about,
+        avatar: userData.avatar,
+        email: userData.email,
+      };
+      const token = jwt.sign({ _id: userData._id }, secretKey, { expiresIn: '7d' });
+      return res.status(200).send({ jwt: token, user: loginData });
     })
     .catch((err) => {
       next(err);

@@ -3,34 +3,23 @@ const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const { celebrate, Joi } = require('celebrate');
-const { errors } = require('celebrate');
+const { celebrate, Joi, errors } = require('celebrate');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { loginUser, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/notFoundError');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 3000, NODE_ENV, SECRET_KEY } = process.env;
+const { PORT = 3000 } = process.env;
 
 const app = express();
 
 app.use(cors());
-console.log(NODE_ENV);
-console.log(SECRET_KEY);
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
 app.use(requestLogger);
-
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
-  }, 0);
-});
-
 app.post('/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required(),
@@ -51,8 +40,14 @@ app.use(auth);
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
 
-app.all('*', (res, req, next) => {
-  next(new NotFoundError('такого маршрута не существует'));
+app.use('*', (res, req, next) => {
+  next(new NotFoundError('Такого маршрута не существует'));
+});
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
 });
 
 app.use(errorLogger);
