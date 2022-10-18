@@ -1,6 +1,6 @@
 require('dotenv').config();
-const mongoose = require('mongoose');
 const express = require('express');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { celebrate, Joi, errors } = require('celebrate');
@@ -17,11 +17,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://localhost:27017/mestodb', {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-});
+mongoose.connect('mongodb://localhost:27017/mestodb');
 
 app.use(requestLogger);
 app.post('/signin', celebrate({
